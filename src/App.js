@@ -1,43 +1,41 @@
 import React, { Component } from 'react';
-import './App.css';
-import ListUsers from './ui/ListUsers';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import allReducers from './reducers';
 
-// Class componet
-class App extends Component {
+import './styles/App.css'; 
+import ListUsers from './ui/Users/Users';
+import About from './ui/About/About';
+import Home from './ui/Home/Home';
+import Images from './ui/Images/Images';
+import ImageDetail from './ui/ImageDetail/ImageDetail';
+import Nav from './ui/Nav/Nav';
+import Users from './ui/Users/Users';
+import Page404 from './ui/Page404/Page404';
 
-  constructor() {
+// Class component 
+const store = createStore(allReducers); 
 
-    super();
-    this.state = {
-      users: []
-    }
-  }
+const App = () => {
 
-  componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(r => r.json())
-      .then(users => this.setState({ users }));
-  }
-
-  handleClick(user) {
-
-    console.log(user);
-  }
-
-  render () {
-    console.log(this.state);
-    const { users = [] } = this.state;
-    return (
+  return (
+    <Provider store={store}>
+    <Router>
       <div className="App">
-
-        {users.map((user, i) => {
-          return (
-            <ListUsers key={i} user={user} onClick={this.handleClick.bind(this, user)} />
-          );
-        })}
+        <Nav />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/images" exact component={Images} />
+          <Route path="/images/:id" component={ImageDetail} />
+          <Route path="/users" component={Users} />
+          <Route component={Page404} />
+        </Switch>
       </div>
-    );
-  }
-}
+    </Router>
+    </Provider>
+  );
+};
 
 export default App;
