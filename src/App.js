@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import allReducers from './reducers';
+import thunk from 'redux-thunk';
 
 import './styles/App.css'; 
 import ListUsers from './ui/Users/Users';
@@ -15,7 +16,7 @@ import Users from './ui/Users/Users';
 import Page404 from './ui/Page404/Page404';
 
 // Class component 
-const store = createStore(allReducers); 
+const store = createStore(allReducers, applyMiddleware(thunk)); 
 
 const App = () => {
 

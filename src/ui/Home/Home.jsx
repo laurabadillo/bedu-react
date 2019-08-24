@@ -1,13 +1,19 @@
 import React from "react";
-import { useDispath, useSelector } from 'react-redux'; 
-import { increment, decrement } from '../../actions/counter';
+import { useDispatch, useSelector } from 'react-redux'; 
+import { increment, decrement } from '../../reducers/counter';
 
 // Componente tonto / Dumb Components / functional component 
-const Home = (props) => {
+const Home = () => {
 
+  const counter = useSelector(state => state.counterReducer);
+  const dispatch = useDispatch();
   return (
-    <h3>This is Home page</h3>
+    <div>
+      <h3>This is Home Page {counter}</h3>
+      <button onClick={() => dispatch(increment())}> + </button>
+      <button onClick={() => dispatch(decrement())}> - </button>
+    </div>
   );
 };
 
-export default Home; 
+export default Home;
